@@ -19,7 +19,9 @@ is the contract between the two.
 
 ## Example output
 
-See [`examples/`](examples/) for a generated profile of Getinge AB
+![Generated one-pager for Getinge AB](docs/example-getinge.png)
+
+See [`examples/`](examples/) for the generated PPTX of Getinge AB
 (Nordic medtech, SEK 34bn revenue).
 
 ## Running without the agent

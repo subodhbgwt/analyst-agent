@@ -45,7 +45,7 @@ def _bullets(slide, x, y, w, h, items, size=9):
 
 
 def _chart(years, revenue, ebitda, currency, path):
-    fig, ax1 = plt.subplots(figsize=(4.4, 2.6), dpi=200)
+    fig, ax1 = plt.subplots(figsize=(4.4, 2.0), dpi=200)
     scale = 1e9 if max(revenue) > 5e9 else 1e6
     unit = "bn" if scale == 1e9 else "mm"
     ax1.bar(years, [r / scale for r in revenue], color="#165788", label="Revenue")
