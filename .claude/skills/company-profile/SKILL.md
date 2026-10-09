@@ -1,6 +1,6 @@
 ---
 name: company-profile
-description: Generate a one-page investment profile deck for a public company — fetches real financials, runs a screening valuation, researches the business, and renders a PPTX one-pager. Use when asked to profile a company, e.g. "/company-profile Getinge" or "make a one-pager on Elekta".
+description: Generate a one-page investment profile deck for a public company. Fetches real financials, runs a screening valuation, researches the business and renders a PPTX one-pager. Use when asked to profile a company, e.g. "/company-profile Getinge" or "make a one-pager on Elekta".
 ---
 
 # Company profile agent
@@ -30,11 +30,11 @@ deterministic work (data, math, rendering); you handle the judgment
    ```
    python src/analysis.py runs/<ticker>/company.json runs/<ticker>/analysis.json
    ```
-   Defaults: 8.5% WACC, 2% terminal growth, 22% tax. If the user gave
+   Defaults: 8.5% WACC, 2% terminal growth. If the user gave
    different assumptions, edit the call in `analysis.py`'s `analyze()`
    signature or pass them through.
 
-5. **Research and write the thesis** — this is your part, not a script.
+5. **Research and write the thesis.** This is your part, not a script.
    Use web search for: what the company actually does, recent news
    (last 6 months), competitive position, and anything that would worry
    an investor. Then write `runs/<ticker>/thesis.json`:
@@ -63,5 +63,5 @@ deterministic work (data, math, rendering); you handle the judgment
 
 - The DCF is a screening heuristic. Never present it as a price target.
 - If fetch returns partial data (missing EBITDA, no FCF), state what is
-  missing in your summary — do not invent numbers.
+  missing in your summary. Do not invent numbers.
 - Thesis bullets must be traceable to a source you actually read.

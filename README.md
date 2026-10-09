@@ -1,48 +1,36 @@
 # analyst-agent
 
-An agentic workflow that turns a company name into an investment one-pager.
+Give it a company name and it builds an investment one-pager.
 
-Type `/company-profile Getinge` in [Claude Code](https://claude.com/claude-code)
-and the agent:
+Type `/company-profile Getinge` in [Claude Code](https://claude.com/claude-code) and the agent:
 
-1. resolves the ticker and pulls real financials from Yahoo Finance
-2. computes growth, margins and a screening DCF (`src/analysis.py`)
-3. researches the business on the web and writes a specific, sourced thesis
-4. renders a formatted PPTX one-pager (`src/render.py`)
+1. finds the ticker and pulls financials from Yahoo Finance
+2. works out growth, margins and a quick screening DCF (`src/analysis.py`)
+3. reads up on the company and writes a short thesis with sources
+4. renders a one-slide PPTX (`src/render.py`)
 
-The design splits the work deliberately: **scripts do the deterministic
-parts** (data fetching, arithmetic, rendering) so the numbers are exactly
-reproducible, and **the agent does the judgment parts** (ticker resolution,
-qualitative research, thesis writing, QA). The skill definition in
-[`.claude/skills/company-profile/SKILL.md`](.claude/skills/company-profile/SKILL.md)
-is the contract between the two.
+The scripts handle everything with a number in it (fetching, maths, rendering), so the figures come out the same every run. The agent only does the parts that need judgement: finding the right ticker, the research, writing the thesis and checking the output. [`SKILL.md`](.claude/skills/company-profile/SKILL.md) describes how the two fit together.
 
-## Example output
+## Example
 
-![Generated one-pager for Getinge AB](docs/example-getinge.png)
+![One-pager for Getinge AB](docs/example-getinge.png)
 
-See [`examples/`](examples/) for the generated PPTX of Getinge AB
-(Nordic medtech, SEK 34bn revenue).
+The PPTX for Getinge AB (Swedish medtech, about SEK 34bn in revenue) is in [`examples/`](examples/).
 
-## Running without the agent
+## Running the scripts by hand
 
-Each stage is a plain script and works standalone:
+Each step works without the agent:
 
 ```bash
 pip install -r requirements.txt
 python src/fetch.py GETI-B.ST runs/geti/company.json
 python src/analysis.py runs/geti/company.json runs/geti/analysis.json
-# write runs/geti/thesis.json by hand (see SKILL.md for the schema)
+# write runs/geti/thesis.json yourself (format in SKILL.md)
 python src/render.py runs/geti/
 ```
 
-## Honest limitations
+## Limitations
 
-- Yahoo Finance data quality varies; the fetch script normalizes but does
-  not audit it.
-- The DCF is a screening heuristic (single-stage FCF fade), not a model
-  you would bid off. It exists to flag "cheap vs expensive at first
-  glance", nothing more.
-- Thesis quality is the agent's responsibility; the skill enforces
-  specificity rules but a human should read the output before it goes
-  anywhere that matters.
+- Yahoo Finance data isn't always clean. The fetch script tidies it up but doesn't check it.
+- The DCF starts from the last year's free cash flow, fades growth down to 2% over five years and uses the same 8.5% WACC for every company. It's good for a first "cheap or expensive" read and not much more. One odd year, or lease-heavy companies under IFRS 16, can throw it off a lot.
+- The thesis is only as good as the research behind it. Read it before you use it for anything.

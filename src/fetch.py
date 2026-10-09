@@ -1,4 +1,4 @@
-"""Fetch and normalize company financials from Yahoo Finance."""
+"""Pulls company info and yearly financials from Yahoo Finance into company.json."""
 import json
 import sys
 from pathlib import Path
@@ -57,6 +57,6 @@ if __name__ == "__main__":
     out.write_text(json.dumps(data, indent=2), encoding="utf-8")
     f = data["financials"]
     years = sorted(f["revenue"])
-    print(f"{data['name']} ({ticker}) — {data['currency']}")
+    print(f"{data['name']} ({ticker}), {data['currency']}")
     print(f"years: {years}")
     print(f"written to {out}")

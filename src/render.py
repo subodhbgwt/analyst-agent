@@ -1,4 +1,4 @@
-"""Render a one-page company profile deck from company + analysis + thesis JSON."""
+"""Builds the one-slide PPTX from company.json, analysis.json and thesis.json."""
 import json
 import sys
 import tempfile
@@ -70,7 +70,7 @@ def render(company: dict, analysis: dict, thesis: dict, out: Path):
 
     name = company["name"]
     cur = company.get("currency") or ""
-    _text(slide, 0.5, 0.25, 12.3, 0.5, f"{name} — company profile", 22, True, ACCENT)
+    _text(slide, 0.5, 0.25, 12.3, 0.5, f"{name}: company profile", 22, True, ACCENT)
 
     # Left column: overview + thesis
     _text(slide, 0.5, 1.0, 5.9, 0.3, "Business overview", 12, True)
@@ -128,7 +128,7 @@ def render(company: dict, analysis: dict, thesis: dict, out: Path):
     _bullets(slide, 6.7, 6.2, 6.1, 1.1, val_lines)
 
     _text(slide, 0.5, 7.15, 12.3, 0.25,
-          "Source: Yahoo Finance market data; agent-generated summary — verify before use. "
+          "Source: Yahoo Finance market data. Summary written by an AI agent, check it before use. "
           "DCF is a screening heuristic, not investment advice.", 7, False, GRAY)
 
     prs.save(out)

@@ -1,4 +1,4 @@
-"""Derive growth, margins and a quick two-method valuation from fetched financials."""
+"""Growth, margins and a quick screening DCF from the fetched financials."""
 import json
 import sys
 from pathlib import Path
@@ -9,7 +9,7 @@ def series(d: dict, years: list) -> list:
 
 
 def analyze(company: dict, wacc: float = 0.085, tgr: float = 0.02,
-            fade_years: int = 5, tax: float = 0.22) -> dict:
+            fade_years: int = 5) -> dict:
     f = company["financials"]
     years = sorted(f["revenue"])
     rev = series(f["revenue"], years)
